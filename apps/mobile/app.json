@@ -1,1 +1,32 @@
-{"expo":{"name":"PW Intake","slug":"pw-intake","scheme":"pwintake","version":"1.0.0","orientation":"portrait","userInterfaceStyle":"light","ios":{"supportsTablet":true,"infoPlist":{"NSCameraUsageDescription":"Photograph equipment for appraisal","NSPhotoLibraryUsageDescription":"Choose equipment photos for appraisal"}},"android":{"permissions":["CAMERA"]},"plugins":[["expo-image-picker",{"photosPermission":"Allow PW Intake to use equipment photos","cameraPermission":"Allow PW Intake to photograph equipment"}]]}}
+{
+  "expo": {
+    "name": "PW Intake",
+    "slug": "pw-intake",
+    "scheme": "pwintake",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "ios": {
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSCameraUsageDescription": "Photograph equipment for appraisal",
+        "NSPhotoLibraryUsageDescription": "Choose equipment photos for appraisal"
+      }
+    },
+    "android": {
+      "permissions": [
+        "CAMERA"
+      ],
+      "softwareKeyboardLayoutMode": "resize"
+    },
+    "plugins": [
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Allow PW Intake to use equipment photos",
+          "cameraPermission": "Allow PW Intake to photograph equipment"
+        }
+      ]
+    ]
+  }
+}
