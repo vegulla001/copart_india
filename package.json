@@ -1,0 +1,6 @@
+{
+  "name": "copart-pw-intake-assessment", "version": "1.0.0", "private": true,
+  "main": "expo/AppEntry", "scripts": {"start":"expo start", "android":"expo start --android", "ios":"expo start --ios", "server":"node server/index.js", "test":"node --test tests/*.test.js", "typecheck":"tsc --noEmit"},
+  "dependencies": {"expo":"~54.0.0", "expo-file-system":"~19.0.0", "expo-image-picker":"~17.0.0", "expo-network":"~8.0.0", "expo-sqlite":"~16.0.0", "expo-status-bar":"~3.0.0", "react":"19.1.0", "react-native":"0.81.4", "react-native-safe-area-context":"~5.6.0"},
+  "devDependencies":{"@types/react":"~19.1.0","typescript":"~5.9.2"}
+}
