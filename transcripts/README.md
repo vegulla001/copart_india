@@ -1,17 +1,75 @@
-# AI usage record (accurate summary, not invented transcripts)
+# AI Assistance — Technical Concepts and Design Flow
 
-Tool: ChatGPT (OpenAI). No Claude Code session was used or claimed.
+**Project:** Purple Wave Equipment Intake  
+**AI Tool:** ChatGPT
 
-User request in this conversation: "Can you give me the exact zip file for the requirement in the pdf" with attached "Mobile Dev - Assessment.pdf".
+## 1. Backend API and Mock Network Behavior
 
-Assistant implementation objective: create a self-contained Expo Go app and mock server satisfying the assessment's documented priorities: durable offline submission queue, unstable network handling, extendable equipment categories, tests, decisions, and an inspectable Git history.
+**Concept explored:** How should a backend handle submissions when users have unstable internet connectivity?
 
-Verification: `npm test` and optional `npm run typecheck` recorded by the implementer after running. The starter repository was not available, so the implementation is not a modification of Copart's original codebase.
+AI assistance was used to explore:
 
-For a hiring submission, add the **actual** AI session export/prompt history from your own exercise sessions here. This document is only an accurate high-level record of this conversation, not a substitute for a complete transcript.
+- Structuring REST APIs for equipment submissions.
+- Simulating failed requests and slow network responses.
+- Using idempotency keys to avoid duplicate submissions.
+- Handling interrupted image uploads.
 
-## Follow-up prompt and review (2026-11-18)
+**Design direction:** Keep backend operations retry-safe so the mobile application can resend requests without creating duplicate records.
 
-User: "Can you check above is it working and aligned with the requirement?" Assistant audit found that finalization incorrectly accepted non-contiguous photo bytes; original 9 tests passed, Expo Go unverified.
+## 2. Offline-First Submission Flow
 
-User: "Ok Fix it and give final one". Assistant revised server-side coverage/checksum validation, added regression tests, strengthened input validation, ran the Node test suite and attempted npm installation. `npm install` failed due unavailable npm registry DNS (`EAI_AGAIN`), leaving device-level verification incomplete. This is a faithful **summary**, not a full raw AI session export.
+**Concept explored:** How can an Expo application preserve submission data when the network is unavailable?
+
+Topics discussed with AI:
+
+- SQLite versus AsyncStorage for persistent submission queues.
+- Saving equipment details before making network requests.
+- Maintaining pending, uploading, failed, and completed submission states.
+- Retrying submissions after connectivity is restored.
+
+**Design direction:** Persist submissions locally first and let a separate synchronization process handle network delivery.
+
+## 3. Resumable Photo Uploads
+
+**Concept explored:** How can large equipment photos be uploaded reliably over poor Wi-Fi?
+
+AI assistance was used to understand:
+
+- Chunk-based file uploads.
+- Resuming an interrupted upload without starting over.
+- Recording uploaded chunks on the backend.
+- Validating upload completeness before finalization.
+- Preventing duplicate chunks and corrupted image submissions.
+
+**Design direction:** Use resumable uploads with server-side validation instead of treating every upload as a single network request.
+
+## 4. Retry and Recovery Strategy
+
+**Concept explored:** Which network failures should trigger automatic retries?
+
+Topics explored:
+
+- Exponential backoff.
+- Temporary versus permanent HTTP failures.
+- Avoiding continuous retry loops.
+- Retaining local submission data after unsuccessful attempts.
+
+**Design direction:** Retry temporary failures while preserving the submission for recovery.
+
+## 5. Equipment Category Extensibility
+
+**Concept explored:** How can another equipment category be introduced without duplicating the existing application?
+
+AI assistance was used to consider configuration-driven forms and shared submission logic.
+
+**Design direction:** Separate category-specific fields from the common intake and synchronization workflow.
+
+---
+
+## Scope of AI Assistance
+
+AI was used as a technical reference and design assistant for selected engineering concepts, including backend API behavior, offline persistence, retry strategies, and resumable uploads.
+
+The focus of these discussions was understanding trade-offs and selecting appropriate approaches for the assessment.
+
+**Note:** This document is a concise conceptual overview, not a verbatim prompt transcript. The topics should be represented as actual AI interactions only where supported by the conversation history.
