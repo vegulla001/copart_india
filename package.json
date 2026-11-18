@@ -10,7 +10,9 @@
     "start": "npm run start -w @pw/mobile",
     "android": "npm run android -w @pw/mobile",
     "server": "npm run start -w @pw/server",
-    "test": "npm run test -w @pw/server",
-    "typecheck": "npm run typecheck -w @pw/mobile"
+    "typecheck": "npm run typecheck -w @pw/mobile",
+    "test": "npm run test:server && npm run test:mobile",
+    "test:server": "npm run test -w @pw/server",
+    "test:mobile": "npm run test -w @pw/mobile"
   }
 }

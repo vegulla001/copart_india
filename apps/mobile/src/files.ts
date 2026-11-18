@@ -8,7 +8,7 @@ export async function retainPhoto(source: string): Promise<Photo> {
   const safeExt=['jpg','jpeg','png','heic','webp'].includes(ext)?ext:'jpg';
   const uri=`${root}${id}.${safeExt}`;
   await FileSystem.copyAsync({from:source,to:uri});
-  const info=await FileSystem.getInfoAsync(uri,{size:true});
+  const info=await FileSystem.getInfoAsync(uri);
   if(!info.exists) throw new Error('Failed to persist photo');
   return {id,uri,name:`${id}.${safeExt}`,mime:safeExt==='png'?'image/png':safeExt==='webp'?'image/webp':safeExt==='heic'?'image/heic':'image/jpeg',size:info.size || 0};
 }

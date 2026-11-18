@@ -7,7 +7,7 @@ import {retainPhoto} from './src/files';
 import {checkServerHealth} from './src/serverStatus';
 import type {ServerStatus} from './src/serverStatus';
 import {initQueue,drainQueue,retryJob,subscribeQueue} from './src/queue';
-import type {Draft,Job} from './src/types';
+import type {Draft,Job,Photo} from './src/types';
 const {categoryFields,validateDraft}=require('@pw/shared');
 const CATEGORIES=[{key:'construction',label:'Construction equipment'},{key:'agriculture',label:'Agricultural equipment'}];
 export default function App(){
@@ -45,7 +45,7 @@ export default function App(){
      const result=camera?await ImagePicker.launchCameraAsync({quality:0.65}):await ImagePicker.launchImageLibraryAsync({allowsMultipleSelection:true,quality:0.65});
      if(result.canceled)return;
      setBusy(true);
-     const added=[];
+     const added:Photo[]=[];
      for(const asset of result.assets)added.push(await retainPhoto(asset.uri));
      setDraft(d=>({...d,photos:[...d.photos,...added]}));
    } catch(e:any){Alert.alert('Photo error',String(e?.message||e));} finally {setBusy(false);}
