@@ -66,3 +66,27 @@ Capture images and input equipment details. The app copies photos to persistent 
 ## Submission note
 
 The included `.git` history is the standalone implementation's history. `transcripts/` is a summary, not a fabricated verbatim transcript. Refer to `DECISIONS.md` for limitations and tradeoffs.
+
+## Frontend tests (Jest)
+
+The Expo client has Jest tests using `jest-expo` and React Native Testing Library.
+The mock server keeps its original Node.js test runner; both suites are invoked
+from the workspace root.
+
+```powershell
+npm install
+npm run test:mobile   # Expo UI, health-check, offline queue tests
+npm run test:server   # mock API, chunks, integrity, idempotency
+npm test              # both suites
+npm run typecheck     # mobile TypeScript
+```
+
+The frontend tests mock native APIs, SQLite access, image picking and HTTP
+responses. They verify UI behavior and queue transitions, **not** actual device
+SQLite persistence, photo IO, or Expo Go behavior. Manually test connectivity,
+background/restart recovery, and flaky Wi-Fi in Expo Go before submission.
+
+Current build environment could not reach npm registry (`EAI_AGAIN`), so the
+new Jest tests are supplied but could not be executed here. The server's 16
+existing tests were rerun successfully. The `npm test` result on a machine
+with installed dependencies is not yet verified.
