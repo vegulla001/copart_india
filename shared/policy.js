@@ -20,6 +20,9 @@ function validateDraft(draft) {
   if (!draft.category || !['construction', 'agriculture'].includes(draft.category)) return 'Select a category';
   if (!String(draft.description || '').trim()) return 'Add an equipment condition description';
   if (!Array.isArray(draft.photos) || draft.photos.length === 0) return 'Add at least one photo';
+  for (const photo of draft.photos) {
+    if (!photo || !Number.isSafeInteger(photo.size) || photo.size < 1 || photo.size > 25 * 1024 * 1024) return 'Each photo must be between 1 byte and 25 MB';
+  }
   for (const field of categoryFields(draft.category)) {
     if (!String(draft.fields?.[field.key] || '').trim()) return `Enter ${field.label}`;
   }

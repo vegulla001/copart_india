@@ -67,3 +67,10 @@ Tests use Node's built-in test runner and need no installed dependencies. Expo t
 ## Reproducing the Git history
 
 The ZIP includes `.git/` with separate implementation commits if supported by the extraction tool. Extract all files (including hidden `.git`), then run `git log --oneline`. Do not squash when submitting.
+
+## Verification status (2026-11-18)
+
+- `npm test`: **15 passed** (run without external dependencies), including a regression where bytes 3–5 are missing in a 9-byte photo.
+- `npm install`: **blocked in the artifact environment** by unavailable npm registry DNS (`EAI_AGAIN`), so TypeScript and Expo Go runtime are **not verified** here. On a machine with npm access, run `npm install`, `npm run typecheck`, `npm test`, and `npm start` before submission.
+- The server rejects incomplete/corrupted images instead of acknowledging submission. The app retains rejected work in its persistent outbox; server data repair after disk corruption is not automated.
+- This is **not the supplied original assessment repository**; the PDF identifies its link as TBD.

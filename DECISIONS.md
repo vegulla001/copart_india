@@ -41,3 +41,12 @@ The provided PDF describes an **existing Expo starter repository and mock server
 ## AI use / review
 
 Implementation was generated with ChatGPT assistance. The session summary under `transcripts/` records the prompts actually available in this conversation; it is **not** a fabricated Claude Code transcript. Independently run and inspect tests, verify on Expo Go, and commit any fixes before sending to an evaluator.
+
+## Final audit and fix (2026-11-18)
+
+- **Fixed critical bug**: a sparse upload with a hole in the middle could previously be finalized because the server inferred chunk lengths from the next offset and final file size. Completion now requires contiguous, exact byte coverage and verifies stored SHA-256 checksums against disk bytes for every chunk.
+- The server now rejects overlapping ranges, invalid photo sizes/identifiers, conflicting creation payloads under the same ID, and corrupted duplicate uploads. Replaying an identical request remains safe.
+- Added regression tests for sparse coverage, corruption, overlaps, duplicate/replayed completion, and invalid metadata. The server and shared policy test suite has **15 passing Node tests**.
+- **Verification limit**: npm package installation was attempted but blocked by DNS (`EAI_AGAIN` contacting registry.npmjs.org). Therefore TypeScript compilation, bundling, Expo Go launch, and real device network recovery **could not be verified** in this environment. These remain mandatory checks for the owner.
+- The provided original Copart starter repo was not available. Git history included in this ZIP represents standalone implementation and audit commits, not changes to Copart's starter.
+- Mock uploads are capped at 25 MiB per photo. Auth and production uploads still need a real backend contract, appropriate network security and device testing.
