@@ -1,0 +1,12 @@
+{
+  "name": "@pw/server",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "start": "node index.js",
+    "test": "node --test tests/*.test.js"
+  },
+  "dependencies": {
+    "@pw/shared": "file:../../packages/shared"
+  }
+}

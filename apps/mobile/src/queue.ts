@@ -1,7 +1,7 @@
 import * as Network from 'expo-network';
 import {getJobs,updateJob,getServerUrl,recoverInterruptedJobs} from './db';
 import {uploadJob,RetryableError} from './transport';
-const {eligible,delayForAttempt,MAX_ATTEMPTS}=require('../shared/policy');
+const {eligible,delayForAttempt,MAX_ATTEMPTS}=require('@pw/shared');
 let running=false;
 let notify:()=>void=()=>{};
 export function subscribeQueue(fn:()=>void){notify=fn;return()=>{if(notify===fn) notify=()=>{};};}

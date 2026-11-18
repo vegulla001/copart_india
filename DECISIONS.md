@@ -50,3 +50,10 @@ Implementation was generated with ChatGPT assistance. The session summary under 
 - **Verification limit**: npm package installation was attempted but blocked by DNS (`EAI_AGAIN` contacting registry.npmjs.org). Therefore TypeScript compilation, bundling, Expo Go launch, and real device network recovery **could not be verified** in this environment. These remain mandatory checks for the owner.
 - The provided original Copart starter repo was not available. Git history included in this ZIP represents standalone implementation and audit commits, not changes to Copart's starter.
 - Mock uploads are capped at 25 MiB per photo. Auth and production uploads still need a real backend contract, appropriate network security and device testing.
+
+## Monorepo and connectivity update (2026-11-18)
+
+- Moved Expo application to `apps/mobile`, the standalone HTTP mock server and its tests to `apps/server`, and pure shared policy to `packages/shared`. npm workspaces at the root provide `npm start`, `npm run server`, `npm test`, and `npm run typecheck` without requiring a new package manager.
+- Added a health-based status card that reports `CHECKING`, `CONNECTED`, or `FAILED`. Reachability is checked against the **saved server URL**, not the phone's general Wi-Fi status, and is refreshed every five seconds, on foreground, and manually. Checks time out rather than hanging forever.
+- `/health` remains independent of simulated submit failures and delay. This avoids reporting an offline backend just because its intentionally unreliable submission endpoint returned 503. It also means a green connection status is **not** proof that uploads are succeeding.
+- Tested Node HTTP server/shared-policy suite. Expo native runtime remains device-dependent and needs verification using the same SDK Expo Go version as `apps/mobile/package.json`.

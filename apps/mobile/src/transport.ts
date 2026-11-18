@@ -1,6 +1,6 @@
 import {readChunk} from './files';
 import type {Job} from './types';
-const { CHUNK_BYTES } = require('../shared/policy');
+const { CHUNK_BYTES } = require('@pw/shared');
 export class RetryableError extends Error { constructor(message:string, public retryable=true){super(message);} }
 async function request<T>(base:string,path:string,method:string,body:unknown,timeoutMs=12000):Promise<T> {
  const controller=new AbortController();

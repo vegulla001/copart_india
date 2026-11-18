@@ -3,7 +3,7 @@ const assert=require('node:assert/strict');
 const os=require('node:os');
 const path=require('node:path');
 const fs=require('node:fs');
-const {createApp}=require('../server/app');
+const {createApp}=require('../app');
 async function fixture(t, options={}){
  const dir=fs.mkdtempSync(path.join(os.tmpdir(),'pw-intake-'));
  const server=createApp({dataDir:dir,...options});await new Promise(r=>server.listen(0,'127.0.0.1',r));
@@ -71,4 +71,13 @@ test('completed submissions remain immutable and completion is idempotent',async
  assert.equal((await call(base,'/submissions/pw-12345/complete','POST',{})).status,200);
  assert.equal((await call(base,p,'PUT',chunk)).body.duplicate,true);
  assert.equal((await call(base,'/submissions/pw-12345/complete','POST',{})).status,200);
+});
+
+test('health endpoint reports server availability even during simulated submission failure', async t => {
+ const {base}=await fixture(t,{failureRate:1,delayMs:200});
+ const started=Date.now();
+ const response=await call(base,'/health');
+ assert.equal(response.status,200);
+ assert.deepEqual(response.body,{ok:true});
+ assert.ok(Date.now()-started<180,'health endpoint must bypass simulated latency');
 });

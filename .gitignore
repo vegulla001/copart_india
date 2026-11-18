@@ -1,5 +1,8 @@
 node_modules/
+**/node_modules/
 .expo/
+**/.expo/
 .env
-server/data/
+**/.env
+apps/server/data/
 .DS_Store
